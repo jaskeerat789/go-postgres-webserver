@@ -3,6 +3,7 @@ package model
 import (
 	"encoding/json"
 	"io"
+	"net/http"
 
 	"github.com/hashicorp/go-hclog"
 	"gorm.io/driver/postgres"
@@ -14,8 +15,18 @@ type DB struct {
 	DB  *gorm.DB
 }
 
+type DBEntity interface {
+	ToJson(w io.Writer) error
+}
+
 func NewDBInstance(l hclog.Logger) *DB {
 	return &DB{Log: l}
+}
+
+func NewPerson(r *http.Request) Person {
+	var person Person
+	json.NewDecoder(r.Body).Decode(&person)
+	return person
 }
 
 func (db *DB) Connect() error {
@@ -32,6 +43,11 @@ func (db *DB) Connect() error {
 }
 
 func (p *People) ToJSON(w io.Writer) error {
+	e := json.NewEncoder(w)
+	return e.Encode(p)
+}
+
+func (p *Person) ToJSON(w io.Writer) error {
 	e := json.NewEncoder(w)
 	return e.Encode(p)
 }

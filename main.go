@@ -33,10 +33,14 @@ func main() {
 	// create a new server mux
 	sm := mux.NewRouter()
 	getRouter := sm.Methods("GET").Subrouter()
+	postRouter := sm.Methods("POST").Subrouter()
 	// postRouter := sm.Methods("POST").Subrouter()
 
 	// register handelers
 	getRouter.HandleFunc("/people", ph.GetPeople)
+	getRouter.HandleFunc("/person/{id:[0-9]+}", ph.GetPerson)
+
+	postRouter.HandleFunc("/person", ph.CreatePerson)
 	// CORS
 	goHandlers.CORS()
 

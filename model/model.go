@@ -6,8 +6,8 @@ type Person struct {
 	gorm.Model
 
 	Name  string `json:"name"`
-	Email string `gorm:"typevarchar(100); unique_index" json:"Email"`
-	Books []Book `json:"book"`
+	Email string `gorm:"typevarchar(100); unique_index" json:"email"`
+	Books []Book `json:"books"`
 }
 
 type Book struct {

@@ -24,3 +24,19 @@ func (pc *PersonController) FetchAllPerson() model.People {
 	pc.DBInstance.DB.Find(&people)
 	return people
 }
+
+func (pc *PersonController) FetchPerson(id int) model.Person {
+	pc.Log.Debug("Fetch person by id")
+
+	var person model.Person
+	var books []model.Book
+	pc.DBInstance.DB.First(&person, id)
+	pc.DBInstance.DB.Where("person_id=?", id).Find(&books)
+	person.Books = books
+	return person
+}
+
+func (pc *PersonController) SaveNewPerson(p model.Person) error {
+	result := pc.DBInstance.DB.Create(&p)
+	return result.Error
+}
