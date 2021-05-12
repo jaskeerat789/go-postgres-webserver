@@ -13,9 +13,14 @@ import (
 	"github.com/hashicorp/go-hclog"
 	handelers "github.com/jaskeerat789/go-postgres-webserver/handlers"
 	"github.com/jaskeerat789/go-postgres-webserver/model"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+
+	// load env variables
+	godotenv.Load()
+
 	// initialize logger
 	l := hclog.New(&hclog.LoggerOptions{
 		Name:  "webserver",
